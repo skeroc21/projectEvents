@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventHub - Вход и регистрация</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="logo">
+                <i class="fas fa-calendar-alt"></i>
+                <h1>Event<span>Hub</span></h1>
+            </div>
+            <p class="tagline">Организуйте свои мероприятия с легкостью</p>
+        </div>
+
+        <div class="auth-forms-wrapper">
+            <div class="auth-forms-container">
+                <!-- Форма авторизации -->
+                <div class="form-section active" id="login-section">
+                    <h2 class="form-title">Вход в систему</h2>
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="login-email">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" id="login-email" name="email" placeholder="user@example.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password">
+                                <i class="fas fa-lock"></i> Пароль
+                            </label>
+                            <input type="password" id="login-password" name="password" placeholder="Введите пароль" required>
+                            <button type="button" class="toggle-password" data-target="login-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-sign-in-alt"></i> Войти
+                            </button>
+                            <div class="form-switch">
+                                Нет аккаунта? <a href="#" id="show-register">Зарегистрироваться</a>
+                            </div>
+                        </div>
+                        
+                        <div class="form-message" id="login-message"></div>
+                    </form>
+                </div>
+                
+                <!-- Форма регистрации -->
+                <div class="form-section" id="register-section">
+                    <h2 class="form-title">Регистрация</h2>
+                    <form id="register-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="register-name">
+                                <i class="fas fa-user"></i> Имя
+                            </label>
+                            <input type="text" id="register-name" name="name" placeholder="Ваше имя" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" id="register-email" name="email" placeholder="user@example.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password">
+                                <i class="fas fa-lock"></i> Пароль
+                            </label>
+                            <input type="password" id="register-password" name="password" placeholder="Придумайте пароль" required>
+                            <button type="button" class="toggle-password" data-target="register-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-user-plus"></i> Зарегистрироваться
+                            </button>
+                            <div class="form-switch">
+                                Уже есть аккаунт? <a href="#" id="show-login">Войти</a>
+                            </div>
+                        </div>
+                        
+                        <div class="form-message" id="register-message"></div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="auth-features">
+                <h3>Возможности EventHub:</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Создание и управление мероприятиями</li>
+                    <li><i class="fas fa-check-circle"></i> Приглашение участников и отслеживание ответов</li>
+                    <li><i class="fas fa-check-circle"></i> Настройка уведомлений и напоминаний</li>
+                    <li><i class="fas fa-check-circle"></i> Интеграция с календарями</li>
+                    <li><i class="fas fa-check-circle"></i> Обмен фотографиями и материалами</li>
+                    <li><i class="fas fa-check-circle"></i> Планирование бюджета мероприятия</li>
+                </ul>
+                
+                <div class="demo-credentials">
+                    <h4>Демо-доступ:</h4>
+                    <p>Email: <code>user@example.com</code></p>
+                    <p>Пароль: <code>string</code></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auth-footer">
+            <p>© 2023 EventHub. Все права защищены.</p>
+            <p>Сайт для организации мероприятий</p>
+        </div>
+    </div>
+    
+    <script src="auth.js"></script>
+</body>
+</html>
