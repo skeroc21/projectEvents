@@ -6,14 +6,9 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
     DB_NAME: str
-    model_config = SettingsConfigDict(
-        env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env")
-    )
 
-    model_config = SettingsConfigDict(
-        env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env")
-    )
-    
+    model_config = SettingsConfigDict(env_file=".env")
+
     @property
     def get_db_url(self):
         return f"sqlite+aiosqlite:///{self.DB_NAME}"
