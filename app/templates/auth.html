@@ -3,166 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EventHub - Вход и регистрация</title>
-    <link rel="stylesheet" href="auth.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <title>Регистрация | События</title>
+    <link rel="stylesheet" href="/static/css/auth.css">
+    <link rel="icon" type="image/svg+xml" href="https://via.placeholder.com/32x32?text=⚡">
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-header">
+    <div class="container">
+        <header class="header">
             <div class="logo">
-                <i class="fas fa-glass-cheers"></i>
-                <h1>EventHub</h1>
+                <img src="https://via.placeholder.com/32x32?text=⚡" alt="Логотип">
+                <h1>События</h1>
+                <p>Платформа для организации мероприятий</p>
             </div>
-            <p class="tagline">Организуем лучшие мероприятия для вас</p>
-        </div>
-        
-        <div class="auth-card">
-            <div class="auth-tabs">
-                <button class="auth-tab active" id="login-tab">Вход</button>
-                <button class="auth-tab" id="register-tab">Регистрация</button>
+            <a href="/login" class="login-link">Войти</a>
+        </header>
+
+        <main class="auth-form">
+            <h2>Регистрация</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Ваше имя</label>
+                    <input type="text" id="name" name="name" required placeholder="Введите ваше имя">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Подтвердите пароль</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </form>
+
+            <div class="footer-links">
+                <p>Уже есть аккаунт? <a href="/login">Войти</a></p>
             </div>
-            
-            <div class="auth-forms">
-                <!-- Форма входа -->
-                <form id="login-form" class="auth-form active-form">
-                    <div class="form-group">
-                        <label for="login-email">
-                            <i class="fas fa-envelope"></i> Email
-                        </label>
-                        <input type="email" id="login-email" placeholder="user@example.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="login-password">
-                            <i class="fas fa-lock"></i> Пароль
-                        </label>
-                        <div class="password-wrapper">
-                            <input type="password" id="login-password" placeholder="Введите пароль" required>
-                            <span class="toggle-password" data-target="login-password">
-                                <i class="fas fa-eye"></i>
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-options">
-                        <label class="checkbox">
-                            <input type="checkbox" id="remember-me">
-                            <span>Запомнить меня</span>
-                        </label>
-                        <a href="#" class="forgot-link">Забыли пароль?</a>
-                    </div>
-                    
-                    <button type="submit" class="auth-btn">Войти</button>
-                    
-                    <div class="divider">
-                        <span>Или войдите с помощью</span>
-                    </div>
-                    
-                    <div class="social-auth">
-                        <button type="button" class="social-btn google">
-                            <i class="fab fa-google"></i> Google
-                        </button>
-                        <button type="button" class="social-btn X">
-                            <i class="fab fa-X-f"></i> X
-                        </button>
-                    </div>
-                </form>
-                
-                <!-- Форма регистрации -->
-                <form id="register-form" class="auth-form">
-                    <div class="form-group">
-                        <label for="register-name">
-                            <i class="fas fa-user"></i> Имя
-                        </label>
-                        <input type="text" id="register-name" placeholder="Введите ваше имя" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="register-email">
-                            <i class="fas fa-envelope"></i> Email
-                        </label>
-                        <input type="email" id="register-email" placeholder="user@example.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="register-password">
-                            <i class="fas fa-lock"></i> Пароль
-                        </label>
-                        <div class="password-wrapper">
-                            <input type="password" id="register-password" placeholder="Создайте пароль" required>
-                            <span class="toggle-password" data-target="register-password">
-                                <i class="fas fa-eye"></i>
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="confirm-password">
-                            <i class="fas fa-lock"></i> Подтверждение пароля
-                        </label>
-                        <div class="password-wrapper">
-                            <input type="password" id="confirm-password" placeholder="Повторите пароль" required>
-                            <span class="toggle-password" data-target="confirm-password">
-                                <i class="fas fa-eye"></i>
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-options">
-                        <label class="checkbox">
-                            <input type="checkbox" id="accept-terms" required>
-                            <span>Я принимаю <a href="#" class="terms-link">условия использования</a></span>
-                        </label>
-                    </div>
-                    
-                    <button type="submit" class="auth-btn">Зарегистрироваться</button>
-                </form>
-            </div>
-            
-            <div class="auth-footer">
-                <p>Создавая аккаунт, вы соглашаетесь с нашей 
-                    <a href="#" class="footer-link">Политикой конфиденциальности</a>
-                </p>
-            </div>
-        </div>
-        
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-calendar-check"></i>
-                <h3>Планируйте мероприятия</h3>
-                <p>Организуйте события любого масштаба с удобным планировщиком</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-users"></i>
-                <h3>Приглашайте гостей</h3>
-                <p>Легко управляйте списком гостей и отправляйте приглашения</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-chart-line"></i>
-                <h3>Отслеживайте активность</h3>
-                <p>Анализируйте посещаемость и получайте обратную связь</p>
-            </div>
-        </div>
+        </main>
     </div>
-    
-    <!-- Модальное окно для сообщений -->
-    <div id="message-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-title">Уведомление</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p id="modal-message">Текст сообщения</p>
-            </div>
-            <div class="modal-footer">
-                <button id="modal-ok" class="modal-btn">OK</button>
-            </div>
-        </div>
-    </div>
-    
-    <script src="auth.js"></script>
+
+    <script src="/static/js/auth.js"></script>
 </body>
 </html>

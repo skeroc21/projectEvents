@@ -9,6 +9,7 @@ from app.api.web import router as web_router
 app = FastAPI(title="individual_project_template", version="0.0.1")
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
+
 app.include_router(sample_router)
 app.include_router(auth_router)
 app.include_router(role_router)
