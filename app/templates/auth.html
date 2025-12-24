@@ -4,119 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventHub - Вход и регистрация</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
 </head>
-<body class="auth-page">
+<body>
     <div class="auth-container">
         <div class="auth-header">
             <div class="logo">
-                <i class="fas fa-calendar-alt"></i>
-                <h1>Event<span>Hub</span></h1>
+                <i class="fas fa-glass-cheers"></i>
+                <h1>EventHub</h1>
             </div>
-            <p class="tagline">Организуйте свои мероприятия с легкостью</p>
+            <p class="tagline">Организуем лучшие мероприятия для вас</p>
         </div>
-
-        <div class="auth-forms-wrapper">
-            <div class="auth-forms-container">
-                <!-- Форма авторизации -->
-                <div class="form-section active" id="login-section">
-                    <h2 class="form-title">Вход в систему</h2>
-                    <form id="login-form" class="auth-form">
-                        <div class="form-group">
-                            <label for="login-email">
-                                <i class="fas fa-envelope"></i> Email
-                            </label>
-                            <input type="email" id="login-email" name="email" placeholder="user@example.com" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="login-password">
-                                <i class="fas fa-lock"></i> Пароль
-                            </label>
-                            <input type="password" id="login-password" name="password" placeholder="Введите пароль" required>
-                            <button type="button" class="toggle-password" data-target="login-password">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-sign-in-alt"></i> Войти
-                            </button>
-                            <div class="form-switch">
-                                Нет аккаунта? <a href="#" id="show-register">Зарегистрироваться</a>
-                            </div>
-                        </div>
-                        
-                        <div class="form-message" id="login-message"></div>
-                    </form>
-                </div>
-                
-                <!-- Форма регистрации -->
-                <div class="form-section" id="register-section">
-                    <h2 class="form-title">Регистрация</h2>
-                    <form id="register-form" class="auth-form">
-                        <div class="form-group">
-                            <label for="register-name">
-                                <i class="fas fa-user"></i> Имя
-                            </label>
-                            <input type="text" id="register-name" name="name" placeholder="Ваше имя" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="register-email">
-                                <i class="fas fa-envelope"></i> Email
-                            </label>
-                            <input type="email" id="register-email" name="email" placeholder="user@example.com" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="register-password">
-                                <i class="fas fa-lock"></i> Пароль
-                            </label>
-                            <input type="password" id="register-password" name="password" placeholder="Придумайте пароль" required>
-                            <button type="button" class="toggle-password" data-target="register-password">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-user-plus"></i> Зарегистрироваться
-                            </button>
-                            <div class="form-switch">
-                                Уже есть аккаунт? <a href="#" id="show-login">Войти</a>
-                            </div>
-                        </div>
-                        
-                        <div class="form-message" id="register-message"></div>
-                    </form>
-                </div>
+        
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="login-tab">Вход</button>
+                <button class="auth-tab" id="register-tab">Регистрация</button>
             </div>
             
-            <div class="auth-features">
-                <h3>Возможности EventHub:</h3>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Создание и управление мероприятиями</li>
-                    <li><i class="fas fa-check-circle"></i> Приглашение участников и отслеживание ответов</li>
-                    <li><i class="fas fa-check-circle"></i> Настройка уведомлений и напоминаний</li>
-                    <li><i class="fas fa-check-circle"></i> Интеграция с календарями</li>
-                    <li><i class="fas fa-check-circle"></i> Обмен фотографиями и материалами</li>
-                    <li><i class="fas fa-check-circle"></i> Планирование бюджета мероприятия</li>
-                </ul>
+            <div class="auth-forms">
+                <!-- Форма входа -->
+                <form id="login-form" class="auth-form active-form">
+                    <div class="form-group">
+                        <label for="login-email">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input type="email" id="login-email" placeholder="user@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">
+                            <i class="fas fa-lock"></i> Пароль
+                        </label>
+                        <div class="password-wrapper">
+                            <input type="password" id="login-password" placeholder="Введите пароль" required>
+                            <span class="toggle-password" data-target="login-password">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="checkbox">
+                            <input type="checkbox" id="remember-me">
+                            <span>Запомнить меня</span>
+                        </label>
+                        <a href="#" class="forgot-link">Забыли пароль?</a>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">Войти</button>
+                    
+                    <div class="divider">
+                        <span>Или войдите с помощью</span>
+                    </div>
+                    
+                    <div class="social-auth">
+                        <button type="button" class="social-btn google">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                        <button type="button" class="social-btn X">
+                            <i class="fab fa-X-f"></i> X
+                        </button>
+                    </div>
+                </form>
                 
-                <div class="demo-credentials">
-                    <h4>Демо-доступ:</h4>
-                    <p>Email: <code>user@example.com</code></p>
-                    <p>Пароль: <code>string</code></p>
-                </div>
+                <!-- Форма регистрации -->
+                <form id="register-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="register-name">
+                            <i class="fas fa-user"></i> Имя
+                        </label>
+                        <input type="text" id="register-name" placeholder="Введите ваше имя" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input type="email" id="register-email" placeholder="user@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password">
+                            <i class="fas fa-lock"></i> Пароль
+                        </label>
+                        <div class="password-wrapper">
+                            <input type="password" id="register-password" placeholder="Создайте пароль" required>
+                            <span class="toggle-password" data-target="register-password">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">
+                            <i class="fas fa-lock"></i> Подтверждение пароля
+                        </label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirm-password" placeholder="Повторите пароль" required>
+                            <span class="toggle-password" data-target="confirm-password">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="checkbox">
+                            <input type="checkbox" id="accept-terms" required>
+                            <span>Я принимаю <a href="#" class="terms-link">условия использования</a></span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">Зарегистрироваться</button>
+                </form>
+            </div>
+            
+            <div class="auth-footer">
+                <p>Создавая аккаунт, вы соглашаетесь с нашей 
+                    <a href="#" class="footer-link">Политикой конфиденциальности</a>
+                </p>
             </div>
         </div>
         
-        <div class="auth-footer">
-            <p>© 2023 EventHub. Все права защищены.</p>
-            <p>Сайт для организации мероприятий</p>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-calendar-check"></i>
+                <h3>Планируйте мероприятия</h3>
+                <p>Организуйте события любого масштаба с удобным планировщиком</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-users"></i>
+                <h3>Приглашайте гостей</h3>
+                <p>Легко управляйте списком гостей и отправляйте приглашения</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>Отслеживайте активность</h3>
+                <p>Анализируйте посещаемость и получайте обратную связь</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для сообщений -->
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Уведомление</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message">Текст сообщения</p>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-ok" class="modal-btn">OK</button>
+            </div>
         </div>
     </div>
     

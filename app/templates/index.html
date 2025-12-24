@@ -3,265 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EventHub - Главная</title>
-    <link rel="stylesheet" href="style.css">
+    <title>EventHub - Каталог мероприятий</title>
+    <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
 </head>
-<body class="main-page">
-    <div class="main-container">
-        <!-- Шапка -->
-        <header class="main-header">
-            <div class="header-left">
-                <div class="logo">
-                    <i class="fas fa-calendar-alt"></i>
-                    <h1>Event<span>Hub</span></h1>
+<body>
+    <!-- Шапка сайта -->
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="/" class="logo">
+                    <i class="fas fa-glass-cheers"></i>
+                    <span class="logo-text">EventSpace</span>
+                </a>
+                <div class="nav-menu">
+                    <a href="/" class="nav-link active">
+                        <i class="fas fa-home"></i> Главная
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-calendar-alt"></i> Мои мероприятия
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-plus-circle"></i> Создать
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-search"></i> Поиск
+                    </a>
                 </div>
-                <nav class="main-nav">
-                    <a href="#" class="nav-link active"><i class="fas fa-home"></i> Главная</a>
-                    <a href="#" class="nav-link"><i class="fas fa-calendar-plus"></i> Создать событие</a>
-                    <a href="#" class="nav-link"><i class="fas fa-calendar-check"></i> Мои события</a>
-                    <a href="#" class="nav-link"><i class="fas fa-bell"></i> Уведомления</a>
-                </nav>
             </div>
-            <div class="header-right">
-                <!-- Выбор города -->
-                <div class="city-selector">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <select id="city-select" class="city-select">
-                        <option value="moscow" selected>Москва</option>
-                        <option value="saint-petersburg">Санкт-Петербург</option>
-                        <option value="novosibirsk">Новосибирск</option>
-                        <option value="ekaterinburg">Екатеринбург</option>
-                        <option value="kazan">Казань</option>
-                        <option value="nizhny-novgorod">Нижний Новгород</option>
-                        <option value="chelyabinsk">Челябинск</option>
-                        <option value="samara">Самара</option>
-                        <option value="rostov">Ростов-на-Дону</option>
-                        <option value="ufa">Уфа</option>
-                    </select>
+            
+            <div class="nav-right">
+                <!-- Уведомления -->
+                <div class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
                 </div>
                 
                 <!-- Профиль пользователя -->
-                <div class="user-menu">
-                    <div class="user-info">
-                        <div class="user-avatar">
-                            <i class="fas fa-user-circle"></i>
+                <div class="profile-dropdown">
+                    <div class="profile-trigger">
+                        <div class="profile-avatar">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="Аватар">
                         </div>
-                        <span class="user-name" id="user-name">Пользователь</span>
+                        <span class="profile-name">Алексей Иванов</span>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-                    <button class="btn btn-logout" id="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i> Выйти
-                    </button>
+                    
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Мой профиль
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Настройки
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-question-circle"></i> Помощь
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout">
+                            <i class="fas fa-sign-out-alt"></i> Выйти
+                        </a>
+                    </div>
                 </div>
             </div>
-        </header>
+        </nav>
+    </header>
 
-        <!-- Основное содержимое -->
-        <main class="main-content">
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
             <!-- Приветственная секция -->
-            <div class="welcome-section">
-                <div class="welcome-text">
-                    <h2>Мероприятия в <span id="current-city">Москве</span></h2>
-                    <p>Найдите интересные события вокруг вас или создайте своё собственное</p>
-                </div>
-                <div class="welcome-actions">
-                    <button class="btn btn-primary btn-large" id="create-event-btn">
-                        <i class="fas fa-plus-circle"></i> Создать мероприятие
-                    </button>
-                </div>
-            </div>
-
-            <!-- Фильтры -->
-            <div class="filters-section">
-                <div class="filters-header">
-                    <h3><i class="fas fa-filter"></i> Фильтры</h3>
-                    <button class="btn btn-small btn-secondary" id="reset-filters">
-                        <i class="fas fa-redo"></i> Сбросить
-                    </button>
-                </div>
-                <div class="filters-grid">
-                    <div class="filter-group">
-                        <label for="category-filter"><i class="fas fa-tags"></i> Категория</label>
-                        <select id="category-filter" class="filter-select">
-                            <option value="">Все категории</option>
-                            <option value="business">Бизнес</option>
-                            <option value="education">Образование</option>
-                            <option value="entertainment">Развлечения</option>
-                            <option value="sports">Спорт</option>
-                            <option value="culture">Культура</option>
-                            <option value="music">Музыка</option>
-                            <option value="food">Еда и напитки</option>
-                            <option value="technology">Технологии</option>
-                        </select>
+            <section class="welcome-section">
+                <h1>Найдите идеальное мероприятие</h1>
+                <p>Откройте для себя тысячи мероприятий вокруг вас или создайте свое собственное</p>
+                
+                <!-- Поиск и фильтры -->
+                <div class="search-section">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Поиск мероприятий, мест, организаторов...">
+                        <button class="search-btn">Найти</button>
                     </div>
                     
-                    <div class="filter-group">
-                        <label for="date-filter"><i class="fas fa-calendar-day"></i> Дата</label>
-                        <select id="date-filter" class="filter-select">
-                            <option value="">Любая дата</option>
-                            <option value="today">Сегодня</option>
-                            <option value="tomorrow">Завтра</option>
-                            <option value="weekend">Выходные</option>
-                            <option value="next-week">Следующая неделя</option>
-                            <option value="month">В этом месяце</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="price-filter"><i class="fas fa-ticket-alt"></i> Цена</label>
-                        <select id="price-filter" class="filter-select">
-                            <option value="">Любая цена</option>
-                            <option value="free">Бесплатные</option>
-                            <option value="paid">Платные</option>
-                            <option value="low">До 1000 ₽</option>
-                            <option value="medium">1000-5000 ₽</option>
-                            <option value="high">От 5000 ₽</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="sort-filter"><i class="fas fa-sort-amount-down"></i> Сортировка</label>
-                        <select id="sort-filter" class="filter-select">
-                            <option value="date_asc">По дате (сначала ближайшие)</option>
-                            <option value="date_desc">По дате (сначала дальние)</option>
-                            <option value="price_asc">По цене (сначала дешевые)</option>
-                            <option value="price_desc">По цене (сначала дорогие)</option>
-                            <option value="popular">По популярности</option>
-                        </select>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="category">Категория</label>
+                            <select id="category" class="filter-select">
+                                <option value="">Все категории</option>
+                                <option value="business">Бизнес</option>
+                                <option value="education">Образование</option>
+                                <option value="entertainment">Развлечения</option>
+                                <option value="sports">Спорт</option>
+                                <option value="music">Музыка</option>
+                                <option value="art">Искусство</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="date">Дата</label>
+                            <select id="date" class="filter-select">
+                                <option value="">Любая дата</option>
+                                <option value="today">Сегодня</option>
+                                <option value="tomorrow">Завтра</option>
+                                <option value="week">На этой неделе</option>
+                                <option value="month">В этом месяце</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="location">Местоположение</label>
+                            <select id="location" class="filter-select">
+                                <option value="">Везде</option>
+                                <option value="online">Онлайн</option>
+                                <option value="moscow">Москва</option>
+                                <option value="spb">Санкт-Петербург</option>
+                                <option value="kazan">Казань</option>
+                            </select>
+                        </div>
+                        
+                        <button class="filter-btn">
+                            <i class="fas fa-sliders-h"></i> Больше фильтров
+                        </button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Секция с мероприятиями -->
+            </section>
+            
+            <!-- Каталог мероприятий -->
             <section class="events-section">
                 <div class="section-header">
-                    <h3><i class="fas fa-calendar-week"></i> Предстоящие мероприятия</h3>
-                    <div class="events-count">
-                        <span id="events-count">0</span> мероприятий найдено
+                    <h2>Популярные мероприятия</h2>
+                    <div class="view-controls">
+                        <button class="view-btn active" data-view="grid">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
                     </div>
                 </div>
                 
-                <!-- Заглушка при загрузке или отсутствии данных -->
-                <div id="events-placeholder" class="events-placeholder">
-                    <div class="placeholder-content">
-                        <i class="fas fa-calendar-search"></i>
-                        <h4>Загружаем мероприятия...</h4>
-                        <p>Пожалуйста, подождите, пока мы найдём интересные события в вашем городе.</p>
-                    </div>
-                </div>
-                
-                <!-- Сетка мероприятий -->
-                <div id="events-grid" class="events-grid" style="display: none;">
-                    <!-- Мероприятия будут загружены здесь через JavaScript -->
+                <div class="events-grid" id="events-container">
+                    <!-- Мероприятия будут загружены через JavaScript -->
                 </div>
                 
                 <!-- Пагинация -->
-                <div id="pagination" class="pagination" style="display: none;">
-                    <button class="btn btn-pagination" id="prev-page" disabled>
+                <div class="pagination">
+                    <button class="pagination-btn disabled">
                         <i class="fas fa-chevron-left"></i> Назад
                     </button>
-                    <span class="page-info">Страница <span id="current-page">1</span> из <span id="total-pages">1</span></span>
-                    <button class="btn btn-pagination" id="next-page">
-                        Вперед <i class="fas fa-chevron-right"></i>
+                    <div class="page-numbers">
+                        <span class="page-number active">1</span>
+                        <span class="page-number">2</span>
+                        <span class="page-number">3</span>
+                        <span class="page-dots">...</span>
+                        <span class="page-number">10</span>
+                    </div>
+                    <button class="pagination-btn">
+                        Далее <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </section>
-
-            <!-- Рекомендации -->
-            <section class="recommendations-section">
-                <h3><i class="fas fa-star"></i> Рекомендуем посетить</h3>
-                <div class="recommendations-grid">
-                    <div class="recommendation-card">
-                        <div class="recommendation-badge">
-                            <i class="fas fa-fire"></i> Популярное
+            
+            <!-- Категории -->
+            <section class="categories-section">
+                <h2>Популярные категории</h2>
+                <div class="categories-grid">
+                    <div class="category-card" data-category="business">
+                        <div class="category-icon">
+                            <i class="fas fa-briefcase"></i>
                         </div>
-                        <div class="recommendation-content">
-                            <h4>Конференция по веб-разработке</h4>
-                            <p class="recommendation-description">Современные тенденции в разработке веб-приложений и фронтенд технологиях.</p>
-                            <div class="recommendation-meta">
-                                <span><i class="fas fa-calendar"></i> 15 дек, 10:00</span>
-                                <span><i class="fas fa-map-marker-alt"></i> Москва</span>
-                                <span><i class="fas fa-users"></i> 120+ участников</span>
-                            </div>
-                        </div>
+                        <h3>Бизнес</h3>
+                        <p>Конференции, встречи, семинары</p>
+                        <span class="event-count">245 мероприятий</span>
                     </div>
                     
-                    <div class="recommendation-card">
-                        <div class="recommendation-badge">
-                            <i class="fas fa-music"></i> Музыка
+                    <div class="category-card" data-category="education">
+                        <div class="category-icon">
+                            <i class="fas fa-graduation-cap"></i>
                         </div>
-                        <div class="recommendation-content">
-                            <h4>Джазовый вечер в клубе "Ритм"</h4>
-                            <p class="recommendation-description">Живая музыка, атмосфера ретро и лучшие джазовые исполнители города.</p>
-                            <div class="recommendation-meta">
-                                <span><i class="fas fa-calendar"></i> 16 дек, 19:00</span>
-                                <span><i class="fas fa-map-marker-alt"></i> Москва</span>
-                                <span><i class="fas fa-users"></i> 80+ участников</span>
-                            </div>
-                        </div>
+                        <h3>Образование</h3>
+                        <p>Лекции, курсы, воркшопы</p>
+                        <span class="event-count">189 мероприятий</span>
                     </div>
                     
-                    <div class="recommendation-card">
-                        <div class="recommendation-badge">
-                            <i class="fas fa-graduation-cap"></i> Образование
+                    <div class="category-card" data-category="music">
+                        <div class="category-icon">
+                            <i class="fas fa-music"></i>
                         </div>
-                        <div class="recommendation-content">
-                            <h4>Мастер-класс по дизайну интерфейсов</h4>
-                            <p class="recommendation-description">Практическое занятие по созданию удобных и красивых пользовательских интерфейсов.</p>
-                            <div class="recommendation-meta">
-                                <span><i class="fas fa-calendar"></i> 18 дек, 14:00</span>
-                                <span><i class="fas fa-map-marker-alt"></i> Москва</span>
-                                <span><i class="fas fa-users"></i> 40+ участников</span>
-                            </div>
+                        <h3>Музыка</h3>
+                        <p>Концерты, фестивали, вечеринки</p>
+                        <span class="event-count">312 мероприятий</span>
+                    </div>
+                    
+                    <div class="category-card" data-category="sports">
+                        <div class="category-icon">
+                            <i class="fas fa-running"></i>
                         </div>
+                        <h3>Спорт</h3>
+                        <p>Соревнования, марафоны, тренировки</p>
+                        <span class="event-count">156 мероприятий</span>
                     </div>
                 </div>
             </section>
-        </main>
-
-        <!-- Подвал -->
-        <footer class="main-footer">
+        </div>
+    </main>
+    
+    <!-- Футер -->
+    <footer class="main-footer">
+        <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>EventHub</h4>
-                    <p>Организуйте и находите лучшие мероприятия в вашем городе</p>
+                    <h3>EventHub</h3>
+                    <p>Платформа для организации и поиска мероприятий. Создавайте, находите и посещайте лучшие события.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-vk"></i></a>
                         <a href="#"><i class="fab fa-telegram"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
+                
                 <div class="footer-section">
-                    <h4>Города</h4>
-                    <a href="#" data-city="moscow">Москва</a>
-                    <a href="#" data-city="saint-petersburg">Санкт-Петербург</a>
-                    <a href="#" data-city="novosibirsk">Новосибирск</a>
-                    <a href="#" data-city="ekaterinburg">Екатеринбург</a>
-                    <a href="#" data-city="kazan">Казань</a>
+                    <h4>Мероприятия</h4>
+                    <ul>
+                        <li><a href="#">Все мероприятия</a></li>
+                        <li><a href="#">Бесплатные события</a></li>
+                        <li><a href="#">Онлайн мероприятия</a></li>
+                        <li><a href="#">Рекомендуемые</a></li>
+                    </ul>
                 </div>
+                
+                <div class="footer-section">
+                    <h4>Организаторам</h4>
+                    <ul>
+                        <li><a href="#">Создать мероприятие</a></li>
+                        <li><a href="#">Продвижение</a></li>
+                        <li><a href="#">Аналитика</a></li>
+                        <li><a href="#">Партнерская программа</a></li>
+                    </ul>
+                </div>
+                
                 <div class="footer-section">
                     <h4>Помощь</h4>
-                    <a href="#"><i class="fas fa-question-circle"></i> Центр поддержки</a>
-                    <a href="#"><i class="fas fa-file-contract"></i> Условия использования</a>
-                    <a href="#"><i class="fas fa-shield-alt"></i> Конфиденциальность</a>
-                    <a href="#"><i class="fas fa-envelope"></i> Обратная связь</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Для организаторов</h4>
-                    <a href="#"><i class="fas fa-plus-circle"></i> Создать событие</a>
-                    <a href="#"><i class="fas fa-chart-line"></i> Аналитика</a>
-                    <a href="#"><i class="fas fa-ticket-alt"></i> Продажа билетов</a>
-                    <a href="#"><i class="fas fa-bullhorn"></i> Продвижение</a>
+                    <ul>
+                        <li><a href="#">Центр поддержки</a></li>
+                        <li><a href="#">Правила платформы</a></li>
+                        <li><a href="#">Конфиденциальность</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>© 2023 EventHub. Все права защищены.</p>
-                <p>Платформа для организации и поиска мероприятий</p>
+                <p>© 2025 EventHub. Все права защищены.</p>
+                <div class="footer-links">
+                    <a href="#">Условия использования</a>
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Карта сайта</a>
+                </div>
             </div>
-        </footer>
+        </div>
+    </footer>
+    
+    <!-- Модальное окно для входа -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Требуется вход</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Для выполнения этого действия необходимо войти в систему.</p>
+                <p>Хотите перейти на страницу входа?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="cancel-login">Отмена</button>
+                <button class="modal-btn primary" id="go-to-login">Войти</button>
+            </div>
+        </div>
     </div>
-
+    
     <script src="main.js"></script>
 </body>
 </html>

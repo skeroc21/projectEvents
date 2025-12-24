@@ -1,212 +1,217 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Элементы DOM
-    const loginSection = document.getElementById('login-section');
-    const registerSection = document.getElementById('register-section');
-    const showRegisterLink = document.getElementById('show-register');
-    const showLoginLink = document.getElementById('show-login');
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-    const loginMessage = document.getElementById('login-message');
-    const registerMessage = document.getElementById('register-message');
-    
-    // Базовый URL API
-    const API_BASE_URL = 'http://localhost:8000';
-    
-    // Переключение между формами входа и регистрации
-    showRegisterLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        loginSection.classList.remove('active');
-        registerSection.classList.add('active');
-        clearMessages();
+// Конфигурация API
+const API_BASE_URL = 'http://localhost:8000';
+
+// Элементы DOM
+const loginTab = document.getElementById('login-tab');
+const registerTab = document.getElementById('register-tab');
+const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
+const messageModal = document.getElementById('message-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalMessage = document.getElementById('modal-message');
+const modalOk = document.getElementById('modal-ok');
+const closeModal = document.querySelector('.close-modal');
+
+// Переключение между формами
+loginTab.addEventListener('click', () => {
+    switchToLogin();
+});
+
+registerTab.addEventListener('click', () => {
+    switchToRegister();
+});
+
+function switchToLogin() {
+    loginTab.classList.add('active');
+    registerTab.classList.remove('active');
+    loginForm.classList.add('active-form');
+    registerForm.classList.remove('active-form');
+}
+
+function switchToRegister() {
+    registerTab.classList.add('active');
+    loginTab.classList.remove('active');
+    registerForm.classList.add('active-form');
+    loginForm.classList.remove('active-form');
+}
+
+// Показать/скрыть пароль
+document.querySelectorAll('.toggle-password').forEach(toggle => {
+    toggle.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const passwordInput = document.getElementById(targetId);
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
     });
+});
+
+// Обработка формы входа
+loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
     
-    showLoginLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        registerSection.classList.remove('active');
-        loginSection.classList.add('active');
-        clearMessages();
-    });
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
     
-    // Функция для отображения сообщений
-    function showMessage(element, message, type) {
-        element.textContent = message;
-        element.className = 'form-message ' + type;
+    // Валидация
+    if (!email || !password) {
+        showMessage('Ошибка', 'Пожалуйста, заполните все поля');
+        return;
     }
     
-    // Очистка сообщений
-    function clearMessages() {
-        loginMessage.textContent = '';
-        loginMessage.className = 'form-message';
-        registerMessage.textContent = '';
-        registerMessage.className = 'form-message';
-    }
+    // Показываем индикатор загрузки
+    const submitBtn = this.querySelector('.auth-btn');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Вход...';
+    submitBtn.disabled = true;
     
-    // Переключение видимости пароля
-    document.querySelectorAll('.toggle-password').forEach(button => {
-        button.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const passwordInput = document.getElementById(targetId);
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            }),
+            credentials: 'include'
         });
-    });
+        
+        if (response.ok) {
+            showMessage('Успешный вход', 'Вы успешно вошли в систему. Перенаправление на главную страницу...');
+            
+            // Редирект на главную страницу после успешного входа
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        } else {
+            const data = await response.json();
+            showMessage('Ошибка входа', data.detail || 'Неверный email или пароль');
+        }
+    } catch (error) {
+        console.error('Ошибка при входе:', error);
+        showMessage('Ошибка', 'Не удалось подключиться к серверу. Проверьте подключение к интернету.');
+    } finally {
+        // Восстанавливаем кнопку
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+});
+
+// Обработка формы регистрации
+registerForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
     
-    // Обработка формы регистрации
-    registerForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    
+    // Валидация
+    if (!name || !email || !password || !confirmPassword) {
+        showMessage('Ошибка', 'Пожалуйста, заполните все поля');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        showMessage('Ошибка', 'Пароли не совпадают');
+        return;
+    }
+    
+    if (!document.getElementById('accept-terms').checked) {
+        showMessage('Ошибка', 'Для регистрации необходимо принять условия использования');
+        return;
+    }
+    
+    // Показываем индикатор загрузки
+    const submitBtn = this.querySelector('.auth-btn');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Регистрация...';
+    submitBtn.disabled = true;
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/register`, {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password
+            })
+        });
         
-        const name = document.getElementById('register-name').value.trim();
-        const email = document.getElementById('register-email').value.trim();
-        const password = document.getElementById('register-password').value;
-        
-        // Валидация
-        if (!name || !email || !password) {
-            showMessage(registerMessage, 'Пожалуйста, заполните все поля', 'error');
-            return;
-        }
-        
-        if (password.length < 6) {
-            showMessage(registerMessage, 'Пароль должен содержать не менее 6 символов', 'error');
-            return;
-        }
-        
-        // Данные для отправки
-        const userData = {
-            name: name,
-            email: email,
-            password: password
-        };
-        
-        try {
-            // Показать состояние загрузки
-            const submitBtn = registerForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Регистрация...';
-            submitBtn.disabled = true;
+        if (response.status === 200) {
+            showMessage('Успешная регистрация', 'Аккаунт успешно создан! Теперь вы можете войти в систему.');
             
-            // Отправка запроса на API
-            const response = await fetch(`${API_BASE_URL}/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-            
-            // Обработка ответа
-            if (response.status === 200) {
-                showMessage(registerMessage, 'Регистрация успешна! Теперь вы можете войти в систему.', 'success');
+            // Переключаемся на форму входа
+            setTimeout(() => {
+                switchToLogin();
+                // Очищаем поля регистрации
                 registerForm.reset();
-                
-                // Автоматически переключаемся на форму входа через 2 секунды
-                setTimeout(() => {
-                    registerSection.classList.remove('active');
-                    loginSection.classList.add('active');
-                    clearMessages();
-                }, 2000);
-            } else if (response.status === 409) {
-                const errorData = await response.json();
-                showMessage(registerMessage, errorData.detail || 'Пользователь с таким email уже существует', 'error');
-            } else {
-                const errorData = await response.json();
-                showMessage(registerMessage, `Ошибка: ${errorData.detail || 'Неизвестная ошибка'}`, 'error');
-            }
-        } catch (error) {
-            console.error('Ошибка при регистрации:', error);
-            showMessage(registerMessage, 'Ошибка сети. Пожалуйста, проверьте подключение к интернету.', 'error');
-        } finally {
-            // Восстановить кнопку
-            const submitBtn = registerForm.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
+            }, 1500);
+        } else if (response.status === 409) {
+            const data = await response.json();
+            showMessage('Ошибка регистрации', data.detail || 'Пользователь с таким email уже существует');
+        } else {
+            const data = await response.json();
+            showMessage('Ошибка регистрации', data.detail || 'Произошла ошибка при регистрации');
         }
+    } catch (error) {
+        console.error('Ошибка при регистрации:', error);
+        showMessage('Ошибка', 'Не удалось подключиться к серверу. Проверьте подключение к интернету.');
+    } finally {
+        // Восстанавливаем кнопку
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+});
+
+// Функция показа сообщения
+function showMessage(title, message) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    messageModal.classList.add('active');
+}
+
+// Закрытие модального окна
+modalOk.addEventListener('click', () => {
+    messageModal.classList.remove('active');
+});
+
+closeModal.addEventListener('click', () => {
+    messageModal.classList.remove('active');
+});
+
+// Закрытие модального окна при клике вне его
+messageModal.addEventListener('click', (e) => {
+    if (e.target === messageModal) {
+        messageModal.classList.remove('active');
+    }
+});
+
+// Социальные кнопки (заглушки)
+document.querySelectorAll('.social-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const provider = this.classList.contains('google') ? 'Google' : 'X';
+        showMessage('Вход через ' + provider, 'Эта функция находится в разработке. Пожалуйста, используйте стандартную форму входа.');
     });
-    
-    // Обработка формы авторизации
-    loginForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('login-email').value.trim();
-        const password = document.getElementById('login-password').value;
-        
-        // Валидация
-        if (!email || !password) {
-            showMessage(loginMessage, 'Пожалуйста, введите email и пароль', 'error');
-            return;
-        }
-        
-        // Данные для отправки
-        const loginData = {
-            email: email,
-            password: password
-        };
-        
-        try {
-            // Показать состояние загрузки
-            const submitBtn = loginForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Вход...';
-            submitBtn.disabled = true;
-            
-            // Отправка запроса на API
-            const response = await fetch(`${API_BASE_URL}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(loginData),
-                credentials: 'include'
-            });
-            
-            // Обработка ответа
-            if (response.status === 200) {
-                showMessage(loginMessage, 'Успешный вход! Перенаправление...', 'success');
-                loginForm.reset();
-                
-                // Перенаправление на главную страницу через 1 секунду
-                setTimeout(() => {
-                    window.location.href = '/web';
-                }, 1000);
-            } else if (response.status === 401 || response.status === 403) {
-                const errorData = await response.json();
-                showMessage(loginMessage, `Ошибка: ${errorData.detail || 'Неверный email или пароль'}`, 'error');
-            } else {
-                const errorData = await response.json();
-                showMessage(loginMessage, `Ошибка: ${errorData.detail || 'Ошибка сервера'}`, 'error');
-            }
-        } catch (error) {
-            console.error('Ошибка при входе:', error);
-            showMessage(loginMessage, 'Ошибка сети. Пожалуйста, проверьте подключение к интернету.', 'error');
-        } finally {
-            // Восстановить кнопку
-            const submitBtn = loginForm.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-    });
-    
-    // Демо-данные для быстрого заполнения формы
-    document.getElementById('login-email').addEventListener('dblclick', function() {
-        this.value = 'user@example.com';
-        document.getElementById('login-password').value = 'string';
-        showMessage(loginMessage, 'Демо-данные загружены. Нажмите "Войти" для тестирования.', 'success');
-    });
-    
-    document.getElementById('register-email').addEventListener('dblclick', function() {
-        document.getElementById('register-name').value = 'Демо Пользователь';
-        this.value = 'demo@example.com';
-        document.getElementById('register-password').value = 'demopassword';
-        showMessage(registerMessage, 'Демо-данные загружены. Вы можете изменить их перед регистрацией.', 'success');
-    });
+});
+
+// Ссылка "Забыли пароль"
+document.querySelector('.forgot-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    showMessage('Восстановление пароля', 'Эта функция находится в разработке. Пожалуйста, обратитесь к администратору.');
 });

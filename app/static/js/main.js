@@ -1,469 +1,358 @@
+// Данные мероприятий (в реальном приложении загружаются с сервера)
+const eventsData = [
+    {
+        id: 1,
+        title: "Бизнес-конференция 2023",
+        description: "Крупнейшая бизнес-конференция года с участием ведущих экспертов",
+        image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        category: "business",
+        date: "15 мая 2023",
+        location: "Москва",
+        price: "от 5000 ₽",
+        badge: "Популярное"
+    },
+    {
+        id: 2,
+        title: "Музыкальный фестиваль под открытым небом",
+        description: "Трехдневный фестиваль с участием мировых звезд",
+        image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        category: "music",
+        date: "20-22 июля 2023",
+        location: "Санкт-Петербург",
+        price: "от 3000 ₽",
+        badge: "Скоро"
+    },
+    {
+        id: 3,
+        title: "Мастер-класс по цифровому маркетингу",
+        description: "Практический мастер-класс для начинающих специалистов",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        category: "education",
+        date: "10 июня 2023",
+        location: "Онлайн",
+        price: "Бесплатно",
+        badge: "Онлайн"
+    },
+    {
+        id: 4,
+        title: "Марафон 'Бегущий город'",
+        description: "Ежегодный благотворительный марафон по улицам города",
+        image: "https://images.unsplash.com/photo-1552674605-db6ffd8facb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        category: "sports",
+        date: "5 июня 2023",
+        location: "Казань",
+        price: "1500 ₽",
+        badge: "Новое"
+    },
+    {
+        id: 5,
+        title: "Выставка современного искусства",
+        description: "Работы современных художников со всего мира",
+        image: "https://images.unsplash.com/photo-1563089145-599997674d42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        category: "art",
+        date: "1-30 июня 2023",
+        location: "Москва",
+        price: "500 ₽",
+        badge: "Выставка"
+    },
+    {
+        id: 6,
+        title: "Стартап-питчинг для инвесторов",
+        description: "Презентация проектов перед венчурными инвесторами",
+        image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        category: "business",
+        date: "25 мая 2023",
+        location: "Онлайн",
+        price: "Бесплатно",
+        badge: "Для инвесторов"
+    },
+    {
+        id: 7,
+        title: "Кулинарный мастер-класс от шеф-повара",
+        description: "Научитесь готовить изысканные блюда итальянской кухни",
+        image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        category: "entertainment",
+        date: "18 мая 2023",
+        location: "Москва",
+        price: "3500 ₽",
+        badge: "Кулинария"
+    },
+    {
+        id: 8,
+        title: "Йога-ретрит на природе",
+        description: "Выходные для восстановления сил и энергии на свежем воздухе",
+        image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1120&q=80",
+        category: "sports",
+        date: "12-14 мая 2023",
+        location: "Подмосковье",
+        price: "8000 ₽",
+        badge: "Здоровье"
+    }
+];
+
+// Элементы DOM
+const eventsContainer = document.getElementById('events-container');
+const categoryFilter = document.getElementById('category');
+const dateFilter = document.getElementById('date');
+const locationFilter = document.getElementById('location');
+const searchInput = document.querySelector('.search-bar input');
+const searchBtn = document.querySelector('.search-btn');
+const viewBtns = document.querySelectorAll('.view-btn');
+const categoryCards = document.querySelectorAll('.category-card');
+const loginModal = document.getElementById('login-modal');
+const goToLoginBtn = document.getElementById('go-to-login');
+const cancelLoginBtn = document.getElementById('cancel-login');
+const closeModalBtn = document.querySelector('.close-modal');
+const logoutBtn = document.querySelector('.logout');
+
+// Текущие фильтры
+let currentFilters = {
+    category: '',
+    date: '',
+    location: '',
+    search: ''
+};
+
+// Инициализация
 document.addEventListener('DOMContentLoaded', function() {
-    // Элементы DOM
-    const logoutBtn = document.getElementById('logout-btn');
-    const userNameElement = document.getElementById('user-name');
-    const createEventBtn = document.getElementById('create-event-btn');
-    const citySelect = document.getElementById('city-select');
-    const currentCityElement = document.getElementById('current-city');
-    const categoryFilter = document.getElementById('category-filter');
-    const dateFilter = document.getElementById('date-filter');
-    const priceFilter = document.getElementById('price-filter');
-    const sortFilter = document.getElementById('sort-filter');
-    const resetFiltersBtn = document.getElementById('reset-filters');
-    const eventsPlaceholder = document.getElementById('events-placeholder');
-    const eventsGrid = document.getElementById('events-grid');
-    const eventsCountElement = document.getElementById('events-count');
-    const prevPageBtn = document.getElementById('prev-page');
-    const nextPageBtn = document.getElementById('next-page');
-    const currentPageElement = document.getElementById('current-page');
-    const totalPagesElement = document.getElementById('total-pages');
-    const paginationElement = document.getElementById('pagination');
+    loadEvents();
+    setupEventListeners();
+    checkAuth();
+});
+
+// Загрузка мероприятий
+function loadEvents(filters = {}) {
+    eventsContainer.innerHTML = '';
     
-    // Базовый URL API
-    const API_BASE_URL = 'http://localhost:8000';
-    
-    // Состояние приложения
-    const state = {
-        currentCity: 'moscow',
-        currentPage: 1,
-        totalPages: 1,
-        isLoading: false,
-        events: [],
-        filters: {
-            category: '',
-            date: '',
-            price: '',
-            sort: 'date_asc'
+    // Фильтрация мероприятий
+    let filteredEvents = eventsData.filter(event => {
+        // Фильтр по категории
+        if (filters.category && event.category !== filters.category) {
+            return false;
         }
+        
+        // Фильтр по поисковому запросу
+        if (filters.search) {
+            const searchTerm = filters.search.toLowerCase();
+            const eventTitle = event.title.toLowerCase();
+            const eventDesc = event.description.toLowerCase();
+            
+            if (!eventTitle.includes(searchTerm) && !eventDesc.includes(searchTerm)) {
+                return false;
+            }
+        }
+        
+        // Здесь можно добавить фильтры по дате и местоположению
+        // Для демонстрации они не реализованы полностью
+        
+        return true;
+    });
+    
+    // Если нет мероприятий после фильтрации
+    if (filteredEvents.length === 0) {
+        eventsContainer.innerHTML = `
+            <div class="no-events" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                <i class="fas fa-calendar-times" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 20px;"></i>
+                <h3 style="color: #64748b; margin-bottom: 10px;">Мероприятия не найдены</h3>
+                <p style="color: #94a3b8;">Попробуйте изменить параметры поиска</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Отображение мероприятий
+    filteredEvents.forEach(event => {
+        const eventCard = createEventCard(event);
+        eventsContainer.appendChild(eventCard);
+    });
+}
+
+// Создание карточки мероприятия
+function createEventCard(event) {
+    const card = document.createElement('div');
+    card.className = 'event-card';
+    card.dataset.category = event.category;
+    
+    card.innerHTML = `
+        <div class="event-image">
+            <img src="${event.image}" alt="${event.title}" onerror="this.src='https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80'">
+            <span class="event-badge">${event.badge}</span>
+        </div>
+        <div class="event-content">
+            <h3 class="event-title">${event.title}</h3>
+            <p class="event-description">${event.description}</p>
+            <div class="event-meta">
+                <div class="event-date">
+                    <i class="far fa-calendar"></i>
+                    <span>${event.date}</span>
+                </div>
+                <div class="event-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${event.location}</span>
+                </div>
+            </div>
+            <div class="event-actions">
+                <div class="event-price">${event.price}</div>
+                <button class="event-btn" data-event-id="${event.id}">Подробнее</button>
+            </div>
+        </div>
+    `;
+    
+    // Добавляем обработчик клика на кнопку
+    const detailsBtn = card.querySelector('.event-btn');
+    detailsBtn.addEventListener('click', function() {
+        showEventDetails(event.id);
+    });
+    
+    return card;
+}
+
+// Показать детали мероприятия
+function showEventDetails(eventId) {
+    // В реальном приложении здесь будет переход на страницу мероприятия
+    // или открытие модального окна с деталями
+    const event = eventsData.find(e => e.id === eventId);
+    if (event) {
+        alert(`Детали мероприятия: ${event.title}\n\n${event.description}\n\nДата: ${event.date}\nМесто: ${event.location}\nСтоимость: ${event.price}`);
+    }
+}
+
+// Настройка обработчиков событий
+function setupEventListeners() {
+    // Поиск
+    searchBtn.addEventListener('click', applyFilters);
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            applyFilters();
+        }
+    });
+    
+    // Фильтры
+    categoryFilter.addEventListener('change', applyFilters);
+    dateFilter.addEventListener('change', applyFilters);
+    locationFilter.addEventListener('change', applyFilters);
+    
+    // Кнопки вида
+    viewBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            viewBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const view = this.dataset.view;
+            if (view === 'list') {
+                eventsContainer.classList.add('list-view');
+            } else {
+                eventsContainer.classList.remove('list-view');
+            }
+        });
+    });
+    
+    // Карточки категорий
+    categoryCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const category = this.dataset.category;
+            categoryFilter.value = category;
+            applyFilters();
+            
+            // Прокрутка к мероприятиям
+            document.querySelector('.events-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Кнопка выхода
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            performLogout();
+        });
+    }
+    
+    // Модальное окно входа
+    if (goToLoginBtn) {
+        goToLoginBtn.addEventListener('click', function() {
+            window.location.href = '/auth.html';
+        });
+    }
+    
+    if (cancelLoginBtn) {
+        cancelLoginBtn.addEventListener('click', function() {
+            loginModal.classList.remove('active');
+        });
+    }
+    
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            loginModal.classList.remove('active');
+        });
+    }
+    
+    // Закрытие модального окна при клике вне его
+    loginModal.addEventListener('click', function(e) {
+        if (e.target === loginModal) {
+            loginModal.classList.remove('active');
+        }
+    });
+}
+
+// Применение фильтров
+function applyFilters() {
+    currentFilters = {
+        category: categoryFilter.value,
+        date: dateFilter.value,
+        location: locationFilter.value,
+        search: searchInput.value.trim()
     };
     
-    // Инициализация
-    init();
+    loadEvents(currentFilters);
+}
+
+// Проверка авторизации
+function checkAuth() {
+    // В реальном приложении здесь будет запрос к серверу
+    // для проверки авторизации пользователя
+    // Для демонстрации считаем, что пользователь авторизован
+    const isAuthenticated = true; // Здесь должна быть реальная проверка
     
-    // Инициализация приложения
-    function init() {
-        // Проверка авторизации
-        checkAuth();
-        
-        // Загрузка событий
-        loadEvents();
-        
-        // Установка обработчиков событий
-        setupEventListeners();
+    if (!isAuthenticated) {
+        // Если пользователь не авторизован, показываем кнопки входа
+        setupUnauthenticatedUI();
     }
-    
-    // Настройка обработчиков событий
-    function setupEventListeners() {
-        // Выбор города
-        citySelect.addEventListener('change', function() {
-            state.currentCity = this.value;
-            const cityName = this.options[this.selectedIndex].text;
-            currentCityElement.textContent = cityName;
-            state.currentPage = 1;
-            loadEvents();
-        });
-        
-        // Фильтры
-        categoryFilter.addEventListener('change', function() {
-            state.filters.category = this.value;
-            state.currentPage = 1;
-            loadEvents();
-        });
-        
-        dateFilter.addEventListener('change', function() {
-            state.filters.date = this.value;
-            state.currentPage = 1;
-            loadEvents();
-        });
-        
-        priceFilter.addEventListener('change', function() {
-            state.filters.price = this.value;
-            state.currentPage = 1;
-            loadEvents();
-        });
-        
-        sortFilter.addEventListener('change', function() {
-            state.filters.sort = this.value;
-            state.currentPage = 1;
-            loadEvents();
-        });
-        
-        // Сброс фильтров
-        resetFiltersBtn.addEventListener('click', function() {
-            categoryFilter.value = '';
-            dateFilter.value = '';
-            priceFilter.value = '';
-            sortFilter.value = 'date_asc';
-            
-            state.filters = {
-                category: '',
-                date: '',
-                price: '',
-                sort: 'date_asc'
-            };
-            
-            state.currentPage = 1;
-            loadEvents();
-        });
-        
-        // Пагинация
-        prevPageBtn.addEventListener('click', function() {
-            if (state.currentPage > 1) {
-                state.currentPage--;
-                loadEvents();
-            }
-        });
-        
-        nextPageBtn.addEventListener('click', function() {
-            if (state.currentPage < state.totalPages) {
-                state.currentPage++;
-                loadEvents();
-            }
-        });
-        
-        // Создание мероприятия
-        createEventBtn.addEventListener('click', function() {
-            alert('Функция создания мероприятия будет реализована в ближайшее время!');
-        });
-        
-        // Выход из системы
-        logoutBtn.addEventListener('click', logout);
-        
-        // Клики по городам в футере
-        document.querySelectorAll('.footer-section a[data-city]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const cityValue = this.getAttribute('data-city');
-                citySelect.value = cityValue;
-                
-                // Триггерим событие change
-                citySelect.dispatchEvent(new Event('change'));
-                
-                // Прокручиваем к верху страницы
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-    }
-    
-    // Проверка авторизации
-    async function checkAuth() {
-        try {
-            const response = await fetch(`${API_BASE_URL}/auth/me`, {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
-            if (response.ok) {
-                const userData = await response.json();
-                userNameElement.textContent = userData.name || 'Пользователь';
-            } else {
-                // Если не авторизован, перенаправляем на страницу авторизации
-                window.location.href = '/auth.html';
-            }
-        } catch (error) {
-            console.error('Ошибка при проверке авторизации:', error);
+}
+
+// Настройка UI для неавторизованного пользователя
+function setupUnauthenticatedUI() {
+    // В реальном приложении здесь будут изменения в интерфейсе
+    // Например, кнопка "Войти" вместо профиля
+    console.log('Пользователь не авторизован');
+}
+
+// Выход из системы
+function performLogout() {
+    // В реальном приложении здесь будет запрос на сервер
+    // для выхода и очистки кук
+    fetch('http://localhost:8000/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+    })
+    .then(response => {
+        if (response.ok) {
+            // Редирект на страницу входа
             window.location.href = '/auth.html';
         }
-    }
-    
-    // Выход из системы
-    async function logout() {
-        try {
-            const response = await fetch(`${API_BASE_URL}/auth/logout`, {
-                method: 'POST',
-                credentials: 'include'
-            });
-            
-            if (response.ok) {
-                window.location.href = '/auth.html';
-            }
-        } catch (error) {
-            console.error('Ошибка при выходе:', error);
-            window.location.href = '/auth.html';
-        }
-    }
-    
-    // Загрузка мероприятий
-    async function loadEvents() {
-        if (state.isLoading) return;
-        
-        state.isLoading = true;
-        showLoadingState();
-        
-        try {
-            // Формируем параметры запроса
-            const params = new URLSearchParams({
-                city: state.currentCity,
-                page: state.currentPage,
-                limit: 9 // Количество событий на странице
-            });
-            
-            // Добавляем фильтры
-            if (state.filters.category) params.append('category', state.filters.category);
-            if (state.filters.date) params.append('date', state.filters.date);
-            if (state.filters.price) params.append('price', state.filters.price);
-            if (state.filters.sort) params.append('sort', state.filters.sort);
-            
-            // Отправляем запрос к API
-            const response = await fetch(`${API_BASE_URL}/events?${params.toString()}`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                
-                // Обновляем состояние
-                state.events = data.events || [];
-                state.totalPages = data.total_pages || 1;
-                
-                // Обновляем интерфейс
-                updateUI(data);
-            } else if (response.status === 401 || response.status === 403) {
-                // Не авторизован - перенаправляем на страницу авторизации
-                window.location.href = '/auth.html';
-            } else {
-                // Ошибка сервера - показываем заглушку
-                showNoEventsState('Не удалось загрузить мероприятия. Пожалуйста, попробуйте позже.');
-            }
-        } catch (error) {
-            console.error('Ошибка при загрузке мероприятий:', error);
-            // В случае ошибки сети показываем демо-данные
-            showDemoEvents();
-        } finally {
-            state.isLoading = false;
-        }
-    }
-    
-    // Показать состояние загрузки
-    function showLoadingState() {
-        eventsPlaceholder.style.display = 'block';
-        eventsGrid.style.display = 'none';
-        paginationElement.style.display = 'none';
-        
-        const placeholderContent = eventsPlaceholder.querySelector('.placeholder-content');
-        placeholderContent.innerHTML = `
-            <i class="fas fa-spinner fa-spin"></i>
-            <h4>Загружаем мероприятия...</h4>
-            <p>Ищем интересные события в городе ${citySelect.options[citySelect.selectedIndex].text}</p>
-        `;
-    }
-    
-    // Показать состояние "нет мероприятий"
-    function showNoEventsState(message) {
-        eventsPlaceholder.style.display = 'block';
-        eventsGrid.style.display = 'none';
-        paginationElement.style.display = 'none';
-        
-        const placeholderContent = eventsPlaceholder.querySelector('.placeholder-content');
-        placeholderContent.innerHTML = `
-            <i class="fas fa-calendar-times"></i>
-            <h4>Мероприятий не найдено</h4>
-            <p>${message || 'Попробуйте изменить фильтры или выберите другой город.'}</p>
-        `;
-        
-        eventsCountElement.textContent = '0';
-    }
-    
-    // Показать демо-мероприятия (если API недоступно)
-    function showDemoEvents() {
-        const demoEvents = [
-            {
-                id: 1,
-                title: 'Конференция по веб-разработке',
-                description: 'Современные тенденции в разработке веб-приложений и фронтенд технологиях.',
-                category: 'technology',
-                date: '2023-12-15T10:00:00',
-                location: 'Москва, Бизнес-центр "Сити"',
-                price: 1500,
-                participants: 120,
-                image: null
-            },
-            {
-                id: 2,
-                title: 'Джазовый вечер в клубе "Ритм"',
-                description: 'Живая музыка, атмосфера ретро и лучшие джазовые исполнители города.',
-                category: 'music',
-                date: '2023-12-16T19:00:00',
-                location: 'Москва, ул. Тверская, 10',
-                price: 800,
-                participants: 80,
-                image: null
-            },
-            {
-                id: 3,
-                title: 'Мастер-класс по дизайну интерфейсов',
-                description: 'Практическое занятие по созданию удобных и красивых пользовательских интерфейсов.',
-                category: 'education',
-                date: '2023-12-18T14:00:00',
-                location: 'Москва, Коворкинг "Простора"',
-                price: 0,
-                participants: 40,
-                image: null
-            },
-            {
-                id: 4,
-                title: 'Выставка современного искусства',
-                description: 'Работы молодых художников в различных стилях и техниках.',
-                category: 'culture',
-                date: '2023-12-20T11:00:00',
-                location: 'Москва, Галерея "Арт-пространство"',
-                price: 300,
-                participants: 60,
-                image: null
-            },
-            {
-                id: 5,
-                title: 'Семинар по маркетингу в соцсетях',
-                description: 'Эффективные стратегии продвижения бизнеса в социальных сетях.',
-                category: 'business',
-                date: '2023-12-22T12:00:00',
-                location: 'Москва, Конференц-зал "Бизнес-хаб"',
-                price: 2000,
-                participants: 75,
-                image: null
-            },
-            {
-                id: 6,
-                title: 'Йога в парке',
-                description: 'Открытое занятие по йоге для всех желающих на свежем воздухе.',
-                category: 'sports',
-                date: '2023-12-17T09:00:00',
-                location: 'Москва, Парк Горького',
-                price: 0,
-                participants: 50,
-                image: null
-            }
-        ];
-        
-        state.events = demoEvents;
-        state.totalPages = 1;
-        updateUI({
-            events: demoEvents,
-            total: demoEvents.length,
-            total_pages: 1
-        });
-    }
-    
-    // Обновление интерфейса
-    function updateUI(data) {
-        // Обновляем счетчик мероприятий
-        const totalEvents = data.total || state.events.length;
-        eventsCountElement.textContent = totalEvents;
-        
-        // Проверяем, есть ли мероприятия
-        if (!state.events || state.events.length === 0) {
-            showNoEventsState();
-            return;
-        }
-        
-        // Скрываем заглушку, показываем сетку мероприятий
-        eventsPlaceholder.style.display = 'none';
-        eventsGrid.style.display = 'grid';
-        
-        // Очищаем сетку
-        eventsGrid.innerHTML = '';
-        
-        // Добавляем мероприятия в сетку
-        state.events.forEach(event => {
-            const eventCard = createEventCard(event);
-            eventsGrid.appendChild(eventCard);
-        });
-        
-        // Обновляем пагинацию
-        updatePagination();
-    }
-    
-    // Создание карточки мероприятия
-    function createEventCard(event) {
-        const card = document.createElement('div');
-        card.className = 'event-card';
-        
-        // Форматируем дату
-        const eventDate = new Date(event.date);
-        const formattedDate = eventDate.toLocaleDateString('ru-RU', {
-            day: 'numeric',
-            month: 'long',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-        
-        // Иконка для категории
-        const categoryIcons = {
-            'business': 'fas fa-briefcase',
-            'education': 'fas fa-graduation-cap',
-            'entertainment': 'fas fa-film',
-            'sports': 'fas fa-running',
-            'culture': 'fas fa-theater-masks',
-            'music': 'fas fa-music',
-            'food': 'fas fa-utensils',
-            'technology': 'fas fa-laptop-code'
-        };
-        
-        const categoryIcon = categoryIcons[event.category] || 'fas fa-calendar';
-        
-        // Название категории
-        const categoryNames = {
-            'business': 'Бизнес',
-            'education': 'Образование',
-            'entertainment': 'Развлечения',
-            'sports': 'Спорт',
-            'culture': 'Культура',
-            'music': 'Музыка',
-            'food': 'Еда и напитки',
-            'technology': 'Технологии'
-        };
-        
-        const categoryName = categoryNames[event.category] || 'Другое';
-        
-        // Цена
-        const priceText = event.price === 0 ? 'Бесплатно' : `${event.price} ₽`;
-        
-        card.innerHTML = `
-            <div class="event-image">
-                <i class="${categoryIcon}"></i>
-            </div>
-            <div class="event-content">
-                <div class="event-category">${categoryName}</div>
-                <h3 class="event-title">${event.title}</h3>
-                <p class="event-description">${event.description}</p>
-                <div class="event-meta">
-                    <span><i class="fas fa-calendar"></i> ${formattedDate}</span>
-                    <span><i class="fas fa-map-marker-alt"></i> ${event.location}</span>
-                    <span><i class="fas fa-users"></i> ${event.participants} участников</span>
-                </div>
-                <div class="event-actions">
-                    <div class="event-price">${priceText}</div>
-                    <button class="btn btn-primary btn-event">
-                        <i class="fas fa-eye"></i> Подробнее
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        // Обработчик для кнопки "Подробнее"
-        const detailsBtn = card.querySelector('.btn-event');
-        detailsBtn.addEventListener('click', function() {
-            alert(`Детали мероприятия: ${event.title}\n\nДата: ${formattedDate}\nМесто: ${event.location}\n\nОписание: ${event.description}`);
-        });
-        
-        return card;
-    }
-    
-    // Обновление пагинации
-    function updatePagination() {
-        // Обновляем номера страниц
-        currentPageElement.textContent = state.currentPage;
-        totalPagesElement.textContent = state.totalPages;
-        
-        // Обновляем состояние кнопок
-        prevPageBtn.disabled = state.currentPage <= 1;
-        nextPageBtn.disabled = state.currentPage >= state.totalPages;
-        
-        // Показываем/скрываем пагинацию
-        paginationElement.style.display = state.totalPages > 1 ? 'flex' : 'none';
+    })
+    .catch(error => {
+        console.error('Ошибка при выходе:', error);
+        // Все равно перенаправляем на страницу входа
+        window.location.href = '/auth.html';
+    });
+}
+
+// Обработка кнопок "Подробнее" на мероприятиях
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('event-btn')) {
+        const eventId = parseInt(e.target.dataset.eventId);
+        showEventDetails(eventId);
     }
 });
