@@ -33,10 +33,11 @@ body {
     gap: 10px;
 }
 
-.logo img {
+.logo-img {
     width: 32px;
     height: 32px;
-    border-radius: 8px;
+    object-fit: contain; /* сохраняет пропорции */
+    border-radius: 8px;  /* если нужно скругление */
 }
 
 .logo h1 {

@@ -6,7 +6,7 @@ from app.api.auth import router as auth_router
 from app.api.roles import router as role_router
 from app.api.web import router as web_router
 
-app = FastAPI(title="individual_project_template", version="0.0.1")
+app = FastAPI(title="Сервис для организации мероприятий", version="0.0.1")
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 

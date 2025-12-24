@@ -32,10 +32,11 @@ body {
     gap: 10px;
 }
 
-.logo img {
+.logo-img {
     width: 32px;
     height: 32px;
-    border-radius: 8px;
+    object-fit: contain;
+    border-radius: 8px; 
 }
 
 .logo h1 {
