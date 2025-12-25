@@ -7,7 +7,7 @@ from app.database.database import Base
 if TYPE_CHECKING:
     from app.models.confirm_events import ConfirmEventModel
 
-class EventsModel(Base):
+class EventModel(Base):
     __tablename__ = "events"
 
     id: Mapped[int] = mapped_column(primary_key=True)

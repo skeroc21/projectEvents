@@ -19,4 +19,4 @@ class UserModel(Base):
 
     role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"), nullable=False)
     role: Mapped["RoleModel"] = relationship(back_populates="users")
-    confirmations: Mapped[list["ConfirmEventModel"]] = relationship(back_populates="user", cascade="all, delete-orphan")
+    # confirmations: Mapped[list["ConfirmEventModel"]] = relationship(back_populates="user", cascade="all, delete-orphan")
